@@ -63,8 +63,8 @@ add_shortcode('display_team', 'team_display_shortcode');
 function display_team_members() {
     // Define query arguments
     $args = array(
-        'post_type' => 'team'
-    );
+        'post_type' = 'team'
+    )
 
     // Check if a department is selected
     if (isset($_POST['department']) && $_POST['department'] !== '') {
