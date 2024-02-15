@@ -14,7 +14,9 @@ function your_shortcode_wp_enqueue_scripts_fun() {
 
     // Register and enqueue style.css
     wp_register_style('team-styles', PLUGINPATH . '/assets/css/style.css');
+    wp_register_style('team-styles2', PLUGINPATH . '/assets/css/style2.css');
     wp_enqueue_style('team-styles');
+    wp_enqueue_style('team-styles2');
     wp_enqueue_script('team-js');
 }
 add_action('wp_enqueue_scripts', 'your_shortcode_wp_enqueue_scripts_fun');
