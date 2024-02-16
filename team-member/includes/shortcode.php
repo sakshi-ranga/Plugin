@@ -14,7 +14,9 @@ function your_shortcode_wp_enqueue_scripts_fun() {
 
     // Register and enqueue style.css
     wp_register_style('team-styles', PLUGINPATH . '/assets/css/style.css');
+    wp_register_style('team-styles2', PLUGINPATH . '/assets/css/style2.css');
     wp_enqueue_style('team-styles');
+    wp_enqueue_style('team-styles2');
     wp_enqueue_script('team-js');
 }
 add_action('wp_enqueue_scripts', 'your_shortcode_wp_enqueue_scripts_fun');
@@ -61,8 +63,8 @@ add_shortcode('display_team', 'team_display_shortcode');
 function display_team_members() {
     // Define query arguments
     $args = array(
-        'post_type' => 'team'
-    );
+        'post_type' = 'team'
+    )
 
     // Check if a department is selected
     if (isset($_POST['department']) && $_POST['department'] !== '') {
@@ -115,3 +117,38 @@ function display_team_members() {
 // Hook the AJAX action for authenticated users and non-authenticated users
 add_action('wp_ajax_display_team_members', 'display_team_members');
 add_action('wp_ajax_nopriv_display_team_members', 'display_team_members');
+
+
+
+/**
+ * Shortcode function to display a team selection dropdown and team members.
+ *
+ * @shortcode display_team
+ * @return string HTML content for the team display.
+ */
+function team_display_shortcode1() {
+    ob_start();
+
+    // Get department terms
+    $department_terms = get_terms(array(
+        'taxonomy' => 'department',
+        'hide_empty' => false,
+    ));
+
+    // Output department selection dropdown
+    echo '<div class"teams-page">';
+    if (!empty($department_terms) && !is_wp_error($department_terms)) {
+        echo '<select id="taxonomySelect"><option value="">Select Taxonomy</option>';
+        foreach ($department_terms as $taxonomy) {
+            echo '<option value="' . esc_attr($taxonomy->slug) . '">' . esc_html($taxonomy->name) . '</option>';
+        }
+        echo '</select>';
+    }
+
+    // Output container for team members
+    echo '<div class="teams" id="teams"></div></div>';
+
+    // Return the buffered content
+    return ob_get_clean();
+}
+add_shortcode('display_team', 'team_display_shortcode1');
